@@ -110,8 +110,6 @@ type MessagePersistData struct {
 	PreserveLabels            bool
 	MIMEAttachmentReplacement *[]AttachmentWrite
 	FTS                       *FTSDoc
-	// FTSFromStoredFields indexes the stored body and envelope instead of FTS.
-	FTSFromStoredFields bool
 }
 
 // MessageIdentityGuard binds repair persistence to the exact archive row that
@@ -2482,18 +2480,8 @@ func (s *Store) persistMessageWith(
 	if err := s.refreshAccountAttributionAfterWriteTx(ctx, tx, messageID, delivery); err != nil {
 		return 0, err
 	}
-	if (data.FTS != nil || data.FTSFromStoredFields) && s.fts5Available {
-		var fts FTSDoc
-		if data.FTSFromStoredFields {
-			row, err := s.loadDerivedEmailText(q, messageID)
-			if err != nil {
-				return 0, fmt.Errorf("read stored FTS fields: %w", err)
-			}
-			fts = row.fts
-			fts.Body = row.body
-		} else {
-			fts = *data.FTS
-		}
+	if data.FTS != nil && s.fts5Available {
+		fts := *data.FTS
 		fts.MessageID = messageID
 		if err := s.dialect.FTSUpsert(q, fts); err != nil {
 			return 0, fmt.Errorf("upsert fts: %w", err)
