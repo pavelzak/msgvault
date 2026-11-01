@@ -102,6 +102,7 @@ const (
 	migrationCardDAVMultipleAccounts        = "carddav_multiple_accounts_v1"
 	migrationCardDAVInferenceExportState    = "carddav_inference_export_state_v1"
 	migrationChatMembers                    = "chat_members_v1"
+	migrationConversationPolicyBootstrap    = "conversation_policy_bootstrap_v1"
 )
 
 func (s *Store) backfillSyncRunResumeMetadata(
