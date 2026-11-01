@@ -20,6 +20,13 @@ All notable changes to msgvault, grouped by release.
 - CLI search JSON, MCP `search_message_bodies`, message details, MCP `get_message` and `search_in_message`, and CLI `show-message --json` and `show-thread --json` report the best-effort flag `hidden_text_present`. True means the stored HTML likely hides readable text. False does not guarantee that text is visible. The check uses inline-style heuristics, `hidden`, and legacy color attributes. Non-blank HTML that fails to parse also sets the flag. Text output from `show-message` and `show-thread` warns on stderr, once per thread page. Archive schema 16 flags older mail during a one-time backfill; new HTML writes refresh the stored flag. API schema 3.30.0 includes the flag in message details and search rows. Daemons older than API schema 3.30.0 report false. Message bodies stay unchanged. The check excludes stylesheets and browser layout.
 - Drafts and unsent messages no longer count as contact in last contact and cadence.
 - Drafts and unsent messages no longer count as contact in relationship temperature, the relationship calendar, the relationships list, person and domain timelines, or chat inbox summaries. Full cache checks at startup, after syncs, and during explicit cache builds detect sent-state changes; automatic refreshes respect the configured minimum rebuild interval. Analytics cache schema 33 triggers a one-time rebuild on upgrade without re-importing messages.
+- [Open loops](usage/open-loops.md) list conversations waiting on your reply
+  and replies you are waiting on, with separate results for each person and
+  decisions on exact questions. `msgvault loops list`, `done`, `snooze`, and
+  `reopen` manage them, and the HTTP API has matching routes. Each request
+  computes evidence for up to 1,000 uncached messages; repeated requests
+  continue using retained evidence. They need archive schema version 16 and
+  HTTP API schema 3.30.0.
 - Vector search, daemon status, and Explore coverage now say to restart when a rebuild activated settings changed after the daemon started.
 - Builds use Go 1.27.3, so IMAP connections reject the compromised intermediate certificates listed in [GO-2026-6809](https://pkg.go.dev/vuln/GO-2026-6809).
 - MCP [`stage_deletion`](https://msgvault.io/docs/usage/chat/#staged-deletion-via-mcp) stages every eligible query match through local or remote daemons, with skipped counts and a 100,000-match limit, instead of stopping at 500 metadata or 100 full-text matches.
