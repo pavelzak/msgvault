@@ -728,7 +728,7 @@ and may require a daemon restart; inspect `pending_restart` in the response.
 
 On unreleased `main`, owner-connected assistants can list unanswered questions
 and make approved decisions through the daemon. Each tool requires discovery of
-its exact daemon route and required fields; API schema 3.30.0 alone does not
+its exact daemon route and required fields; API schema 3.31.0 alone does not
 enable it. Delegated sessions expose none of these tools.
 
 | Tool | Effect | Parameters |

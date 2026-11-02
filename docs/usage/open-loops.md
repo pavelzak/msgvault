@@ -148,7 +148,7 @@ question. Deleting a question removes only that question's decision.
 On unreleased `main`, an owner-connected MCP assistant can call
 `list_open_loops`, `close_open_loop`, `snooze_open_loop`, and
 `reopen_open_loop`. The daemon must advertise each exact route and its required
-fields. API schema 3.30.0 alone is insufficient. Delegated sessions expose none
+fields. API schema 3.31.0 alone is insufficient. Delegated sessions expose none
 of these tools.
 
 Start MCP with `--allow-loop-writes` to allow done, snooze, and reopen. Each
